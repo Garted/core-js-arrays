@@ -289,13 +289,18 @@ function distinct(arr) {
  * @return {array} - The n-dimensional array filled with zeros.
  *
  * @example
- *    createNDimensionalArray(2, 3) => [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+ *    createNDimensionalArray() => [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
  *    createNDimensionalArray(3, 2) => [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  if (n === 1) {
+    return Array(size).fill(0);
+  }
+  return Array.from({ length: size }, () =>
+    createNDimensionalArray(n - 1, size)
+  );
 }
 
 /**
@@ -363,10 +368,15 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
-}
+function createChunks(arr, chunkSize) {
+  return Array.from(
+    { length: Math.ceil(arr.length / chunkSize) },
 
+    (_, index) => {
+      return arr.slice(index * chunkSize, (index + 1) * chunkSize);
+    }
+  );
+}
 /**
  * Generates an array of odd numbers of the specified length.
  *
